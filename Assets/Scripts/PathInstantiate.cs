@@ -6,6 +6,10 @@ public class PathInstantiate : MonoBehaviour {
 	int tilesPlacedCounter = 0;
 	public Transform floorTilePrefab; // assign in inspector
 
+	public GameObject gridInstantiatePrefab;
+	public float chanceOfGrid = .5f;
+	public Collider cubePathTrigger;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -35,9 +39,20 @@ public class PathInstantiate : MonoBehaviour {
 		}
 
 		else {
+
+			float gridRandom = Random.Range (0f, 1f);
+
+			if (gridRandom < chanceOfGrid) {
+				Instantiate (gridInstantiatePrefab,this.transform.position,this.transform.rotation);
+			}
+
 			Destroy (gameObject);
 		}
 
+	}
+
+	void OnTriggerEnter ( Collider activator ) {
+//		activator.Destroy;
 	}
 }
 

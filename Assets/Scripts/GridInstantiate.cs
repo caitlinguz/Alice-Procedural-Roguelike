@@ -3,17 +3,44 @@ using System.Collections;
 
 public class GridInstantiate : MonoBehaviour {
 
+	public Transform floorTilePrefab; // assign in inspector
+	public Transform wallTilePrefab; // assign in inspector
+
+	public GameObject pathInstantiatePrefab;
+	public float chanceOfPath = .5f;
+
 	// Use this for initialization
 	void Start () {
 		for ( int counter = 0 ; counter < 5 ; counter++ ) {
 			for ( int otherCounter = 0 ; otherCounter < 5 ; otherCounter++ ) {
-				transform.position += transform.forward * 5f;
+
+				Vector3 pos = (new Vector3(counter * 5,0,otherCounter * 5) + this.transform.position);
 
 				float randomNumber = Random.Range (0f, 1f);
 
+				if (randomNumber < .7f) {
+					Instantiate ( floorTilePrefab, 
+					             pos,
+					             this.transform.rotation
+					             );
+				}
+				else if (randomNumber < .95f) {
+					Instantiate ( wallTilePrefab, 
+					             pos,
+					             this.transform.rotation
+					             );
+				}
 
 			}
 		}
+
+		float pathRandom = Random.Range(0f,1f);
+		
+		if (pathRandom < chanceOfPath) {
+			Instantiate (pathInstantiatePrefab,this.transform.position,this.transform.rotation);
+		}
+
+		Destroy (gameObject);
 
 	}
 	
